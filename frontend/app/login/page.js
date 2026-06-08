@@ -5,7 +5,9 @@ import { useRouter } from "next/navigation"
 import { useAuth } from "@/context/AuthContext"
 import { loginUser } from "@/services/api"
 import Link from "next/link"
-
+import Logo from "@/components/Logo"
+import AuthCard from "@/components/AuthCard"
+import Input from "@/components/Input"
 
 const LoginPage = () => {
 
@@ -31,48 +33,74 @@ const LoginPage = () => {
         }
 
         login(data.user, data.token)
-
         router.push("/dashboard")
     }
 
     return (
-        <main className="flex min-h-screen items-center justify-center bg-gray-50">
-            <div className="w-full max-w-md bg-white rounded-2xl shadow p-8">
-                <h1 className="text-2xl font-bold text-center mb-6">📚 BookShelf</h1>
+        <main
+            className="min-h-screen flex items-center justify-center px-4"
+            style={{ background: "radial-gradient(ellipse at top, #1a1a2e 0%, #0f0f0f 70%)" }}
+        >
+            <div className="w-full max-w-md animate-fadeIn">
 
-                {error && (
-                    <p className="text-red-500 text-sm text-center mb-4">{error}</p>
-                )}
+                <div className="mb-8">
+                    <Logo />
+                </div>
 
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                        required
-                    />
-                    <input
-                        type="password"
-                        placeholder="Contraseña"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-400"
-                        required
-                    />
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="bg-indigo-500 text-white rounded-lg py-2 font-semibold hover:bg-indigo-600 transition disabled:opacity-50"
-                    >
-                        {loading ? "Entrando..." : "Iniciar sesión"}
-                    </button>
-                </form>
+                <AuthCard>
+                    <h2 className="text-xl font-bold text-white mb-6 text-center">Bienvenido de vuelta</h2>
 
-                <p className="text-center text-sm text-gray-500 mt-4">
+                    {error && (
+                        <div
+                            className="mb-4 rounded-lg text-sm text-red-400"
+                            style={{
+                                background: "#ef444420",
+                                border: "1px solid #ef444440",
+                                padding: "12px 16px"
+                            }}
+                        >
+                            {error}
+                        </div>
+                    )}
+
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                        <Input
+                            label="Email"
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="tu@email.com"
+                            required
+                        />
+                        <Input
+                            label="Contraseña"
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="••••••••"
+                            required
+                        />
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full rounded-xl font-semibold text-white transition-all duration-200 hover:opacity-85 mt-2"
+                            style={{
+                                background: loading ? "var(--border)" : "var(--accent)",
+                                padding: "14px 24px"
+                            }}
+                        >
+                            {loading ? "Entrando..." : "Iniciar sesión"}
+                        </button>
+                    </form>
+                </AuthCard>
+
+                <p className="text-center text-sm mt-6" style={{ color: "var(--text-secondary)" }}>
                     ¿No tienes cuenta?{" "}
-                    <Link href="/register" className="text-indigo-500 hover:underline">
+                    <Link
+                        href="/register"
+                        className="font-medium hover:opacity-80 transition-opacity"
+                        style={{ color: "var(--accent)" }}
+                    >
                         Regístrate
                     </Link>
                 </p>
